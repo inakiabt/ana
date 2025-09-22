@@ -161,6 +161,21 @@ class WorkoutManager: NSObject, ObservableObject {
         }
     }
     
+    // Estimate steps based on speed and time for desk treadmill workouts
+    private func estimateStepsFromSpeed(speed: Double, duration: TimeInterval) -> Int {
+        // Average steps per mile for walking/running
+        let stepsPerMile: Double
+        if speed < 4.0 {
+            stepsPerMile = 2200 // Walking
+        } else {
+            stepsPerMile = 1800 // Running
+        }
+        
+        // Calculate total distance and multiply by steps per mile
+        let totalDistance = (speed / 3600.0) * duration // miles
+        return Int(totalDistance * stepsPerMile)
+    }
+    
     private func updateWorkoutStats() {
         guard let startDate = startDate, !isPaused else { return }
         
@@ -179,6 +194,9 @@ class WorkoutManager: NSObject, ObservableObject {
                 incline: self.settings.incline,
                 timeInterval: timeInterval
             )
+            
+            // Estimate steps based on speed and total duration for desk treadmill use
+            self.stats.steps = self.estimateStepsFromSpeed(speed: self.settings.speed, duration: currentDuration)
             
             self.lastUpdateTime = now
         }
@@ -210,15 +228,8 @@ extension WorkoutManager: HKLiveWorkoutBuilderDelegate {
                         self.stats.updateHeartRate(heartRate)
                     }
                 }
-            } else if quantityType == HKQuantityType(.stepCount) {
-                if let statistics = workoutBuilder.statistics(for: quantityType),
-                   let sum = statistics.sumQuantity() {
-                    let steps = Int(sum.doubleValue(for: .count()))
-                    DispatchQueue.main.async {
-                        self.stats.steps = steps
-                    }
-                }
             }
+            // Note: Step count removed - estimated based on treadmill speed for desk treadmill use
         }
     }
     

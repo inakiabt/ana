@@ -43,7 +43,7 @@ Ana is a comprehensive Apple Watch app designed to track indoor treadmill workou
 - **Heart Rate**: Current BPM + average BPM
 - **Distance**: Calculated distance traveled
 - **Pace**: Current pace (minutes per mile)
-- **Steps**: Estimated step count
+- **Step Estimation**: Estimated step count based on treadmill speed and duration
 - **Calories**: Real-time calorie burn
 
 #### Controls:
@@ -68,13 +68,14 @@ Ana is a comprehensive Apple Watch app designed to track indoor treadmill workou
 - **Health App Sync**: Automatic synchronization with Apple Health
 
 ### Motion Tracking
-- **Core Motion**: Pedometer and accelerometer data
-- **Step Estimation**: Algorithms calibrated for treadmill workouts
-- **Movement Detection**: Accelerometer-based activity monitoring
+- **Step Estimation**: Speed-based algorithms optimized for desk treadmill workouts
+- **Stationary Arm Support**: Works perfectly with desk treadmills where arms remain stationary
+- **Distance Calculation**: Based on treadmill speed settings rather than arm movement
 
 ### Calculations
 - **Distance**: `Distance = Speed × Time`
 - **Pace**: `Pace = 60 ÷ Speed (minutes per mile)`
+- **Steps**: `Steps = Distance × Steps_per_Mile` (2200 for walking, 1800 for running)
 - **Calories**: METs-based formula incorporating:
   - User weight
   - Speed (walking vs running METs)
@@ -100,6 +101,7 @@ Ana is a comprehensive Apple Watch app designed to track indoor treadmill workou
 - Apple Watch Series 3 or later
 - watchOS 9.0 or later
 - Health app permissions for optimal functionality
+- **Perfect for desk treadmills** where arms remain stationary while working
 
 ## Privacy & Permissions
 Ana requires the following permissions:
@@ -112,6 +114,7 @@ Ana requires the following permissions:
 2. **Heart Rate**: Ensure your Apple Watch fits snugly for best heart rate readings
 3. **Consistency**: Maintain steady speed/incline for accurate calculations
 4. **Health Data**: Keep your weight updated in the Health app for accurate calorie calculations
+5. **Desk Treadmill**: Perfect for desk treadmills - steps and distance are calculated from your speed settings, not arm movement
 
 ## Support
 For issues or feature requests, please visit the GitHub repository.
