@@ -163,17 +163,21 @@ class WorkoutManager: NSObject, ObservableObject {
     
     // Estimate steps based on speed and time for desk treadmill workouts
     private func estimateStepsFromSpeed(speed: Double, duration: TimeInterval) -> Int {
-        // Average steps per mile for walking/running
+        // Convert to imperial for step calculation if using metric
+        let speedInMph = settings.unitSystem == .metric ? speed * 0.621371 : speed
+        
+        // Use configurable steps per mile based on walking/running threshold
         let stepsPerMile: Double
-        if speed < 4.0 {
-            stepsPerMile = 2200 // Walking
+        if speedInMph < settings.walkingSpeedThreshold {
+            stepsPerMile = settings.walkingStepsPerMile
         } else {
-            stepsPerMile = 1800 // Running
+            stepsPerMile = settings.runningStepsPerMile
         }
         
         // Calculate total distance and multiply by steps per mile
-        let totalDistance = (speed / 3600.0) * duration // miles
-        return Int(totalDistance * stepsPerMile)
+        let totalDistance = (speed / 3600.0) * duration // distance in current unit system
+        let totalDistanceInMiles = settings.unitSystem == .metric ? totalDistance * 0.621371 : totalDistance
+        return Int(totalDistanceInMiles * stepsPerMile)
     }
     
     private func updateWorkoutStats() {
@@ -187,12 +191,13 @@ class WorkoutManager: NSObject, ObservableObject {
             guard let self = self else { return }
             
             self.stats.duration = currentDuration
-            self.stats.updateDistance(speed: self.settings.speed, timeInterval: timeInterval)
+            self.stats.updateDistance(speed: self.settings.speed, timeInterval: timeInterval, unitSystem: self.settings.unitSystem)
             self.stats.estimateCalories(
                 weight: self.userWeight,
                 speed: self.settings.speed,
                 incline: self.settings.incline,
-                timeInterval: timeInterval
+                timeInterval: timeInterval,
+                unitSystem: self.settings.unitSystem
             )
             
             // Estimate steps based on speed and total duration for desk treadmill use

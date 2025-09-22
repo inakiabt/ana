@@ -61,14 +61,14 @@ struct WorkoutView: View {
                         MetricCard(
                             title: "Distance",
                             value: String(format: "%.2f", workoutManager.stats.distance),
-                            unit: "mi",
+                            unit: workoutManager.settings.unitSystem.distanceUnit,
                             color: .blue
                         )
                         
                         MetricCard(
                             title: "Pace",
                             value: formatPace(workoutManager.stats.pace),
-                            unit: "/mi",
+                            unit: "/\(workoutManager.settings.unitSystem.distanceUnit)",
                             color: .green
                         )
                     }
@@ -105,7 +105,7 @@ struct WorkoutView: View {
                 VStack(spacing: 15) {
                     SettingRow(
                         title: "Speed",
-                        value: "\(workoutManager.settings.speed, specifier: "%.1f") mph",
+                        value: "\(workoutManager.settings.speed, specifier: "%.1f") \(workoutManager.settings.unitSystem.speedUnit)",
                         color: .blue
                     )
                     
@@ -113,6 +113,12 @@ struct WorkoutView: View {
                         title: "Incline",
                         value: "\(workoutManager.settings.incline, specifier: "%.1f")%",
                         color: .orange
+                    )
+                    
+                    SettingRow(
+                        title: "Unit System",
+                        value: workoutManager.settings.unitSystem.rawValue,
+                        color: .gray
                     )
                 }
                 .padding()

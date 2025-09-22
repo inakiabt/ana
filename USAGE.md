@@ -6,7 +6,9 @@ Ana is a comprehensive Apple Watch app designed to track indoor treadmill workou
 ## Features
 
 ### ✅ Core Functionality
-- **Manual Speed & Incline Input**: Set your treadmill speed (1.0-12.0 mph) and incline (0-15%)
+- **Manual Speed & Incline Input**: Set your treadmill speed (1.0-12.0 mph / 1.6-19.3 km/h) and incline (0-15%)
+- **Configurable Unit System**: Choose between Imperial (mph/miles) or Metric (km/h/km) units
+- **Customizable Step Estimation**: Configure steps per mile for walking (1800-2800) and running (1400-2200)
 - **Real-time Heart Rate Monitoring**: Live BPM display with average heart rate calculation
 - **Distance & Pace Tracking**: Automatic calculation based on speed and workout duration
 - **Step Estimation**: Advanced algorithms to estimate steps during treadmill workouts
@@ -28,14 +30,20 @@ Ana is a comprehensive Apple Watch app designed to track indoor treadmill workou
 3. Tap "Start Workout" to begin
 
 ### 2. Workout Setup
-1. **Adjust Speed**: Use the slider or enter manually (1.0-12.0 mph)
-2. **Set Incline**: Adjust incline percentage (0-15%)
-3. **Use Presets**: Choose from:
-   - Easy Walk (2.5 mph, 0% incline)
-   - Brisk Walk (3.5 mph, 2% incline)
-   - Hill Walk (3.0 mph, 5% incline)
-   - Light Jog (5.0 mph, 1% incline)
-4. **Start Workout**: Tap the green "Start Workout" button
+1. **Choose Unit System**: Select Imperial (mph/miles) or Metric (km/h/km)
+2. **Adjust Speed**: Use the slider or enter manually
+   - Imperial: 1.0-12.0 mph
+   - Metric: 1.6-19.3 km/h
+3. **Set Incline**: Adjust incline percentage (0-15%)
+4. **Configure Advanced Settings** (optional):
+   - Customize walking steps per mile (1800-2800)
+   - Customize running steps per mile (1400-2200)
+5. **Use Presets**: Choose from:
+   - Easy Walk (2.5 mph / 4.0 km/h, 0% incline)
+   - Brisk Walk (3.5 mph / 5.6 km/h, 2% incline)
+   - Hill Walk (3.0 mph / 4.8 km/h, 5% incline)
+   - Light Jog (5.0 mph / 8.0 km/h, 1% incline)
+6. **Start Workout**: Tap the green "Start Workout" button
 
 ### 3. During Workout
 #### Metrics View (Tab 1):
@@ -51,7 +59,7 @@ Ana is a comprehensive Apple Watch app designed to track indoor treadmill workou
 - **Stop**: Red stop button (with confirmation dialog)
 
 #### Settings View (Tab 2):
-- View current speed and incline settings
+- View current speed, incline, and unit system settings  
 - Reminder that you can adjust these on your treadmill
 
 ### 4. Ending Workout
@@ -74,12 +82,12 @@ Ana is a comprehensive Apple Watch app designed to track indoor treadmill workou
 
 ### Calculations
 - **Distance**: `Distance = Speed × Time`
-- **Pace**: `Pace = 60 ÷ Speed (minutes per mile)`
-- **Steps**: `Steps = Distance × Steps_per_Mile` (2200 for walking, 1800 for running)
+- **Pace**: `Pace = 60 ÷ Speed (minutes per distance unit)`
+- **Steps**: `Steps = Distance × Steps_per_Mile` (customizable: 1800-2800 for walking, 1400-2200 for running)
 - **Calories**: METs-based formula incorporating:
   - User weight
   - Speed (walking vs running METs)
-  - Incline adjustment
+  - Incline adjustment (significantly affects calorie burn)
   - Duration
 - **Average Heart Rate**: Running average of all recorded heart rate measurements
 
@@ -90,12 +98,12 @@ Ana is a comprehensive Apple Watch app designed to track indoor treadmill workou
 
 ## Quick Start Presets
 
-| Preset | Speed | Incline | Use Case |
-|--------|-------|---------|----------|
-| Easy Walk | 2.5 mph | 0% | Gentle warm-up or recovery |
-| Brisk Walk | 3.5 mph | 2% | Standard cardio workout |
-| Hill Walk | 3.0 mph | 5% | Strength and endurance training |
-| Light Jog | 5.0 mph | 1% | Light running session |
+| Preset | Imperial Speed | Metric Speed | Incline | Use Case |
+|--------|---------------|--------------|---------|----------|
+| Easy Walk | 2.5 mph | 4.0 km/h | 0% | Gentle warm-up or recovery |
+| Brisk Walk | 3.5 mph | 5.6 km/h | 2% | Standard cardio workout |
+| Hill Walk | 3.0 mph | 4.8 km/h | 5% | Strength and endurance training |
+| Light Jog | 5.0 mph | 8.0 km/h | 1% | Light running session |
 
 ## Requirements
 - Apple Watch Series 3 or later
@@ -115,6 +123,8 @@ Ana requires the following permissions:
 3. **Consistency**: Maintain steady speed/incline for accurate calculations
 4. **Health Data**: Keep your weight updated in the Health app for accurate calorie calculations
 5. **Desk Treadmill**: Perfect for desk treadmills - steps and distance are calculated from your speed settings, not arm movement
+6. **Personalize**: Adjust steps per mile in Advanced Settings to match your stride length
+7. **Unit Preference**: Choose your preferred unit system (Imperial/Metric) for comfort
 
 ## Support
 For issues or feature requests, please visit the GitHub repository.
