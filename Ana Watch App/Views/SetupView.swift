@@ -7,9 +7,7 @@ struct SetupView: View {
     @State private var speed: Double = 3.0
     @State private var incline: Double = 0.0
     @State private var unitSystem: UnitSystem = .imperial
-    @State private var walkingStepsPerMile: Double = 2200
-    @State private var runningStepsPerMile: Double = 1800
-    @State private var showingAdvancedSettings = false
+    @State private var showingProfileSetup = false
     
     var body: some View {
         NavigationView {
@@ -136,55 +134,55 @@ struct SetupView: View {
                     .background(Color(.systemGray6))
                     .cornerRadius(12)
                     
-                    // Advanced Settings
+                    // Profile Settings
                     VStack(alignment: .leading, spacing: 10) {
-                        Button(action: { showingAdvancedSettings.toggle() }) {
-                            HStack {
-                                Text("Advanced Settings")
-                                    .font(.headline)
-                                Spacer()
-                                Image(systemName: showingAdvancedSettings ? "chevron.up" : "chevron.down")
-                            }
-                        }
-                        .foregroundColor(.primary)
+                        Text("Step Length Profile")
+                            .font(.headline)
                         
-                        if showingAdvancedSettings {
-                            Group {
-                                Text("Step Estimation")
-                                    .font(.subheadline)
-                                    .fontWeight(.medium)
-                                    .padding(.top)
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Current Step Length:")
+                                    .font(.body)
+                                Text("\(workoutManager.settings.userProfile.stepLength, specifier: "%.1f") cm")
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.blue)
                                 
-                                HStack {
-                                    Text("Walking:")
-                                    Spacer()
-                                    Text("\(Int(walkingStepsPerMile)) steps/mile")
+                                if workoutManager.settings.userProfile.hasCustomStepLength {
+                                    HStack {
+                                        Image(systemName: "checkmark.circle.fill")
+                                            .foregroundColor(.green)
+                                            .font(.caption)
+                                        Text("Personalized")
+                                            .font(.caption)
+                                            .fontWeight(.medium)
+                                    }
+                                } else {
+                                    Text("Using default value")
+                                        .font(.caption)
                                         .foregroundColor(.secondary)
                                 }
-                                
-                                Slider(value: $walkingStepsPerMile, in: 1800...2800, step: 50) {
-                                    Text("Walking Steps Per Mile")
-                                }
-                                .accentColor(.green)
-                                
-                                HStack {
-                                    Text("Running:")
-                                    Spacer()
-                                    Text("\(Int(runningStepsPerMile)) steps/mile")
-                                        .foregroundColor(.secondary)
-                                }
-                                
-                                Slider(value: $runningStepsPerMile, in: 1400...2200, step: 50) {
-                                    Text("Running Steps Per Mile")
-                                }
-                                .accentColor(.red)
-                                
-                                Text("Tip: Customize steps per mile based on your stride length")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                                    .padding(.top, 4)
                             }
+                            
+                            Spacer()
                         }
+                        
+                        Button(action: { showingProfileSetup = true }) {
+                            HStack {
+                                Image(systemName: "person.crop.circle.badge.plus")
+                                Text("Configure Step Length")
+                            }
+                            .font(.body)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.blue)
+                            .cornerRadius(8)
+                        }
+                        
+                        Text("Accurate step length ensures precise distance tracking for your desk treadmill workouts.")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
                     }
                     .padding()
                     .background(Color(.systemGray6))
@@ -217,12 +215,13 @@ struct SetupView: View {
                 }
             }
         }
+        .sheet(isPresented: $showingProfileSetup) {
+            ProfileSetupView(userProfile: workoutManager.settings.userProfile)
+        }
         .onAppear {
             speed = workoutManager.settings.speed
             incline = workoutManager.settings.incline
             unitSystem = workoutManager.settings.unitSystem
-            walkingStepsPerMile = workoutManager.settings.walkingStepsPerMile
-            runningStepsPerMile = workoutManager.settings.runningStepsPerMile
         }
         .onChange(of: unitSystem) { newValue in
             // Convert speed when unit system changes
@@ -238,8 +237,6 @@ struct SetupView: View {
         workoutManager.settings.speed = speed
         workoutManager.settings.incline = incline
         workoutManager.settings.unitSystem = unitSystem
-        workoutManager.settings.walkingStepsPerMile = walkingStepsPerMile
-        workoutManager.settings.runningStepsPerMile = runningStepsPerMile
         workoutManager.startWorkout()
         dismiss()
     }

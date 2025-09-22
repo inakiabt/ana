@@ -18,15 +18,52 @@ enum UnitSystem: String, CaseIterable {
         case .metric: return "km"
         }
     }
+    
+    var lengthUnit: String {
+        switch self {
+        case .imperial: return "inches"
+        case .metric: return "cm"
+        }
+    }
+}
+
+enum Gender: String, CaseIterable {
+    case male = "Male"
+    case female = "Female"
+    case other = "Other"
+}
+
+struct UserProfile {
+    var height: Double = 170.0 // cm
+    var gender: Gender = .other
+    var stepLength: Double = 75.0 // cm - user's stride length
+    var hasCustomStepLength: Bool = false // whether user has manually set or calibrated step length
+    
+    // Calculate estimated step length based on height using standard formula
+    func estimatedStepLength() -> Double {
+        let multiplier: Double
+        switch gender {
+        case .male: return height * 0.415
+        case .female: return height * 0.413
+        case .other: return height * 0.414 // average
+        }
+    }
+    
+    // Convert step length to user's preferred unit system
+    func stepLengthInUserUnits(unitSystem: UnitSystem) -> Double {
+        switch unitSystem {
+        case .imperial: return stepLength * 0.393701 // cm to inches
+        case .metric: return stepLength
+        }
+    }
 }
 
 struct WorkoutSettings {
     var speed: Double = 3.0 // mph or km/h based on unit system
     var incline: Double = 0.0 // percentage
     var unitSystem: UnitSystem = .imperial
-    var walkingStepsPerMile: Double = 2200 // configurable steps per mile for walking
-    var runningStepsPerMile: Double = 1800 // configurable steps per mile for running
     var walkingSpeedThreshold: Double = 4.0 // speed threshold between walking and running (mph)
+    var userProfile: UserProfile = UserProfile()
 }
 
 class WorkoutStats: ObservableObject {

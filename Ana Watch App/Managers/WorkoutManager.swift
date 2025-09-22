@@ -161,23 +161,25 @@ class WorkoutManager: NSObject, ObservableObject {
         }
     }
     
-    // Estimate steps based on speed and time for desk treadmill workouts
+    // Estimate steps based on distance and user's step length for desk treadmill workouts
     private func estimateStepsFromSpeed(speed: Double, duration: TimeInterval) -> Int {
-        // Convert to imperial for step calculation if using metric
-        let speedInMph = settings.unitSystem == .metric ? speed * 0.621371 : speed
+        // Calculate total distance traveled
+        let totalDistance = (speed / 3600.0) * duration // distance in current unit system
         
-        // Use configurable steps per mile based on walking/running threshold
-        let stepsPerMile: Double
-        if speedInMph < settings.walkingSpeedThreshold {
-            stepsPerMile = settings.walkingStepsPerMile
+        // Convert distance to meters for step calculation
+        let totalDistanceInMeters: Double
+        if settings.unitSystem == .metric {
+            totalDistanceInMeters = totalDistance * 1000.0 // km to meters
         } else {
-            stepsPerMile = settings.runningStepsPerMile
+            totalDistanceInMeters = totalDistance * 1609.34 // miles to meters
         }
         
-        // Calculate total distance and multiply by steps per mile
-        let totalDistance = (speed / 3600.0) * duration // distance in current unit system
-        let totalDistanceInMiles = settings.unitSystem == .metric ? totalDistance * 0.621371 : totalDistance
-        return Int(totalDistanceInMiles * stepsPerMile)
+        // Convert step length from cm to meters
+        let stepLengthInMeters = settings.userProfile.stepLength / 100.0
+        
+        // Calculate steps: Total Distance = Step Count × Step Length
+        // Therefore: Step Count = Total Distance ÷ Step Length
+        return Int(totalDistanceInMeters / stepLengthInMeters)
     }
     
     private func updateWorkoutStats() {
