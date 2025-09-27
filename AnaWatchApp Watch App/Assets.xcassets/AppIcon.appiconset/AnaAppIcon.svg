@@ -1,0 +1,29 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1B4D3E"/>
+      <stop offset="100%" stop-color="#0A2F4E"/>
+    </linearGradient>
+    <linearGradient id="dial" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4EE1A8"/>
+      <stop offset="100%" stop-color="#2AB0FF"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="20" result="blur"/>
+      <feOffset in="blur" dy="20" dx="0" result="offsetBlur"/>
+      <feMerge>
+        <feMergeNode in="offsetBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="1024" height="1024" rx="220" fill="url(#bg)"/>
+  <g filter="url(#shadow)">
+    <circle cx="512" cy="512" r="320" fill="#021422" opacity="0.9"/>
+    <path d="M512 208a304 304 0 1 0 0 608 304 304 0 0 0 0-608zm0 40c146.998 0 266 119.002 266 266S658.998 780 512 780 246 660.998 246 514 365.002 248 512 248z" fill="url(#dial)"/>
+    <path d="M512 262c-18 0-32 14-32 32v208h-132c-18 0-32 14-32 32s14 32 32 32h164c17.673 0 32-14.327 32-32V294c0-18-14-32-32-32z" fill="#4EE1A8"/>
+    <circle cx="512" cy="512" r="44" fill="#0A2F4E"/>
+    <path d="M512 394c-20 0-36 16-36 36v20c0 20 16 36 36 36s36-16 36-36v-20c0-20-16-36-36-36z" fill="#FFFFFF" opacity="0.9"/>
+  </g>
+  <path d="M300 844c52-84 128-132 212-132s160 48 212 132" stroke="#4EE1A8" stroke-width="32" stroke-linecap="round" fill="none" opacity="0.7"/>
+</svg>
