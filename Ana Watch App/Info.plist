@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>NSHealthShareUsageDescription</key>
+    <string>Ana needs access to read your heart rate data during workouts.</string>
+    <key>NSHealthUpdateUsageDescription</key>
+    <string>Ana needs access to save your workout data to Apple Health.</string>
+    <key>NSMotionUsageDescription</key>
+    <string>Ana needs access to motion data to track your steps and movement during treadmill workouts.</string>
+    <key>WKWatchOnly</key>
+    <true/>
+    <key>CFBundleDisplayName</key>
+    <string>Ana</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.inakiabt.ana.watchkitapp</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0</string>
+</dict>
+</plist>
