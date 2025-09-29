@@ -1,24 +1,52 @@
-//
-//  ContentView.swift
-//  Ana-codex Watch App
-//
-//  Created by Iñaki Abete on 28/09/2025.
-//
-
 import SwiftUI
+import HealthKit
 
 struct ContentView: View {
+    @EnvironmentObject var workoutManager: WorkoutManager
+    @State private var showingSetup = false
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationView {
+            if workoutManager.isWorkoutActive {
+                WorkoutView()
+            } else {
+                VStack(spacing: 20) {
+                    Text("Ana")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    
+                    Text("Treadmill Workout Tracker")
+                        .font(.body)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.secondary)
+                    
+                    Button("Start Workout") {
+                        showingSetup = true
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
+                    
+                    if !workoutManager.hasHealthPermissions {
+                        Button("Grant Health Permissions") {
+                            workoutManager.requestHealthPermissions()
+                        }
+                        .buttonStyle(.bordered)
+                        .font(.caption)
+                    }
+                }
+                .padding()
+            }
         }
-        .padding()
+        .sheet(isPresented: $showingSetup) {
+            SetupView()
+        }
+        .onAppear {
+            workoutManager.requestHealthPermissions()
+        }
     }
 }
 
 #Preview {
     ContentView()
+        .environmentObject(WorkoutManager())
 }

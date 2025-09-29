@@ -1,17 +1,14 @@
-//
-//  Ana_codexApp.swift
-//  Ana-codex Watch App
-//
-//  Created by Iñaki Abete on 28/09/2025.
-//
-
 import SwiftUI
+import HealthKit
 
 @main
 struct Ana_codex_Watch_AppApp: App {
+    @StateObject private var workoutManager = WorkoutManager()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(workoutManager)
         }
     }
 }
